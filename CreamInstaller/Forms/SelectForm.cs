@@ -548,6 +548,8 @@ internal sealed partial class SelectForm : CustomForm
         Program.Canceled = false;
         blockedGamesCheckBox.Enabled = false;
         blockProtectedHelpButton.Enabled = false;
+        useSmokeAPICheckBox.Enabled = false;
+        useSmokeAPIHelpButton.Enabled = false;
         cancelButton.Enabled = true;
         scanButton.Enabled = false;
         noneFoundLabel.Visible = false;
@@ -694,6 +696,8 @@ internal sealed partial class SelectForm : CustomForm
         scanButton.Enabled = true;
         blockedGamesCheckBox.Enabled = true;
         blockProtectedHelpButton.Enabled = true;
+        useSmokeAPICheckBox.Enabled = true;
+        useSmokeAPIHelpButton.Enabled = true;
     }
 
     private void OnTreeViewNodeCheckedChanged(object sender, TreeViewEventArgs e)
@@ -887,8 +891,8 @@ internal sealed partial class SelectForm : CustomForm
                     foreach (string directory in directories)
                     {
                         directory.GetScreamApiComponents(out string api32, out string api32_o, out string api64,
-                            out string api64_o, out string config,
-                            out string log);
+                            out string api64_o, out string old_config, out string config,
+                            out string old_log, out string log);
                         if (api32.FileExists() || api32_o.FileExists() || api64.FileExists() || api64_o.FileExists() ||
                             config.FileExists() || log.FileExists())
                             _ = items.Add(new ContextMenuItem($"Open EOS Directory #{++epic}", "File Explorer",
@@ -1205,6 +1209,20 @@ internal sealed partial class SelectForm : CustomForm
                 ? "(none)"
                 : blockedDirectoryExceptions),
             customFormText: "Block Protected Games");
+    }
+    private void OnUseSmokeAPICheckBoxChanged(object sender, EventArgs e)
+    {
+        Program.UseSmokeAPI = useSmokeAPICheckBox.Checked;
+        OnLoad(forceProvideChoices: false);
+    }
+
+    private void OnUseSmokeAPIHelpButtonClicked(object sender, EventArgs e)
+    {
+        using DialogForm form = new(this);
+        _ = form.Show(SystemIcons.Information,
+            "InTest restore SmokeAPI in app. May be unstable."
+            + "\n\nIf some games don't launch with it - try disable and reinstall unlock",
+            customFormText: "Use SmokeAPI");
     }
 
     private void OnSortCheckBoxChanged(object sender, EventArgs e)

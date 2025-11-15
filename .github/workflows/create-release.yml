@@ -50,7 +50,15 @@ jobs:
         run: dotnet build CreamInstaller.sln --configuration Release --no-restore
 
       - name: Publish single-file
-        run: dotnet publish CreamInstaller.sln -c Release -r win-x64 -p:PublishSingleFile=true --self-contained true --output ./publish
+        run: |
+          dotnet publish CreamInstaller.sln -c Release -r win-x64 -p:PublishSingleFile=true --self-contained true --output ./publish
+          powershell Compress-Archive -Path ./publish/CreamInstaller.exe -DestinationPath ./publish/CreamInstaller.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CreamInstaller
+          path: ./publish/CreamInstaller.exe
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -58,6 +66,6 @@ jobs:
           tag_name: v${{ inputs.version }}
           name: ${{ inputs.title || format('Release v{0}', inputs.version) }}
           body: ${{ inputs.notes }}
-          files: ./publish/CreamInstaller.exe
+          files: ./publish/CreamInstaller.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

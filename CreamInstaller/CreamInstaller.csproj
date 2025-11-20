@@ -5,7 +5,7 @@
         <UseWindowsForms>True</UseWindowsForms>
         <ApplicationIcon>Resources\program.ico</ApplicationIcon>
         <Version>5.0.1.5</Version>
-        <Copyright>2025, FroggMaster (https://github.com/FroggMaster)</Copyright>
+        <Copyright>2025, FroggMaster (https://github.com/FroggMaster), HvTcCore (https://github.com/HvTcCore)</Copyright>
         <Company>CreamInstaller</Company>
         <Product>Automatic DLC Unlocker Installer &amp; Configuration Generator</Product>
         <StartupObject>CreamInstaller.Program</StartupObject>
